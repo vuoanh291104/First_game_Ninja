@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Player : MonoBehaviour
 {   
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator anim;
@@ -12,8 +12,10 @@ public class NewBehaviourScript : MonoBehaviour
     private bool isGrounded = true;
     private bool isJumping= false;
     private bool isAttack= false;
+    private bool isDeath= false;
     private float horizontal;
     private string currentAnimName;
+    private int coin = 0 ;
     [SerializeField] private float jumpForce = 350;
 
 
@@ -26,6 +28,10 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(isDeath){
+            
+            return;
+        }
         isGrounded = CheckGrounded();
         horizontal = Input.GetAxisRaw("Horizontal"); // di chuyển với chiều ngang
         //float vertical = Input.GetAxisRaw("Vertical");  di chuyển với chiều dọc
@@ -54,12 +60,13 @@ public class NewBehaviourScript : MonoBehaviour
             }
         }
 
-        if( !isGrounded && rb.velocity.y <0){
+        if( !isGrounded && rb.velocity.y <0 ){
                 ChangeAnim("fall");
                 isJumping = false;
         }
     }
     private void FixedUpdate(){
+        
         move();
     }
     private void move(){
@@ -110,5 +117,23 @@ public class NewBehaviourScript : MonoBehaviour
                 anim.SetTrigger(currentAnimName);
             }
         }
+    private void OnTriggerEnter2D(Collider2D collision){
+        if(collision.tag == "Coin"){
+            Debug.Log("Coin" + collision.gameObject.name);
+            coin++;
+            Destroy(collision.gameObject);
+        }
+        
+
+    }
+    
+    private void OnCollisionEnter2D(Collision2D collision){
+        if(collision.gameObject.tag =="DeathZone"){
+                    Debug.Log(collision.gameObject.name);
+                    isDeath= true;
+                    ChangeAnim("die");
+                    
+                }
+            }
     
 }

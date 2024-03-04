@@ -16,15 +16,22 @@ public class Player : MonoBehaviour
     private float horizontal;
     private string currentAnimName;
     private int coin = 0 ;
+    private Vector3  savePoint;
     [SerializeField] private float jumpForce = 350;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        savePoint = transform.position;
+        OnInit();
     }
-
+    public void OnInit(){
+        isAttack=false;
+        isDeath=false;
+        transform.position= savePoint;
+        ChangeAnim("idle");
+    }
     // Update is called once per frame
     void Update()
     {
@@ -132,6 +139,7 @@ public class Player : MonoBehaviour
                     Debug.Log(collision.gameObject.name);
                     isDeath= true;
                     ChangeAnim("die");
+                    Invoke(nameof(OnInit),2f);
                     
                 }
             }

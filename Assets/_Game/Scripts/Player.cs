@@ -139,7 +139,7 @@ public class Player : MonoBehaviour
                     Debug.Log(collision.gameObject.name);
                     isDeath= true;
                     ChangeAnim("die");
-                    Invoke(nameof(OnInit),2f);
+                    Invoke(nameof(OnInit),1f);
                     
                 }
             }

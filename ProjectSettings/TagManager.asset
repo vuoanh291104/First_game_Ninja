@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Coin
   - DeathZone
+  - SavePoint
   layers:
   - Default
   - TransparentFX

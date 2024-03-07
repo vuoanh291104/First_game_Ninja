@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {   
+    
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator anim;
     [SerializeField] private LayerMask groundPlayer;
@@ -17,20 +18,25 @@ public class Player : MonoBehaviour
     private string currentAnimName;
     private int coin = 0 ;
     private Vector3  savePoint;
+    
     [SerializeField] private float jumpForce = 350;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        savePoint = transform.position;
+        
+        SavePoint();
         OnInit();
     }
     public void OnInit(){
+        
         isAttack=false;
         isDeath=false;
         transform.position= savePoint;
         ChangeAnim("idle");
+        
+       
     }
     // Update is called once per frame
     void Update()
@@ -124,20 +130,25 @@ public class Player : MonoBehaviour
                 anim.SetTrigger(currentAnimName);
             }
         }
-    private void OnTriggerEnter2D(Collider2D collision){
-        if(collision.tag == "Coin"){
-            Debug.Log("Coin" + collision.gameObject.name);
-            coin++;
-            Destroy(collision.gameObject);
+        internal void SavePoint(){
+            savePoint = transform.position;
         }
+    // private void OnTriggerEnter2D(Collider2D collision){
+    //     if(collision.tag == "Coin"){
+    //         Debug.Log("Coin" + collision.gameObject.name);
+    //         coin++;
+    //         collision.gameObject.SetActive(false);
+    //         //Destroy(collision.gameObject);
+    //     }
         
 
-    }
+    // }
+    
     
     private void OnCollisionEnter2D(Collision2D collision){
         if(collision.gameObject.tag =="DeathZone"){
                     Debug.Log(collision.gameObject.name);
-                    isDeath= true;
+                    isDeath= true;                   
                     ChangeAnim("die");
                     Invoke(nameof(OnInit),1f);
                     

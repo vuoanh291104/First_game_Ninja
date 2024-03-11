@@ -83,7 +83,6 @@ public class Player : MonoBehaviour
         }
     }
     private void FixedUpdate(){
-        // Oanh chan hap voãi nho ra cái này là v:>>
         move();
     }
     private void move(){

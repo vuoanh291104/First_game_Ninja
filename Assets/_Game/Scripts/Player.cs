@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -14,6 +15,7 @@ public class Player : MonoBehaviour
     private bool isJumping= false;
     private bool isAttack= false;
     private bool isDeath= false;
+    private bool isRunning= false;
     private float horizontal;
     private string currentAnimName;
     private int coin = 0 ;
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
         
         isAttack=false;
         isDeath=false;
+        isRunning = false;
         transform.position= savePoint;
         ChangeAnim("idle");
         
@@ -61,7 +64,8 @@ public class Player : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Space) && isGrounded){
                 Jump();
             }   
-            if(Mathf.Abs(horizontal) >0.1f){
+            if(Mathf.Abs(horizontal) >0.1f && !isDeath){
+                isRunning= true;
                 ChangeAnim("run");
             }
             if(Input.GetKey(KeyCode.C) && isGrounded){
@@ -79,11 +83,12 @@ public class Player : MonoBehaviour
         }
     }
     private void FixedUpdate(){
-        
+        // Oanh chan hap voãi nho ra cái này là v:>>
         move();
     }
     private void move(){
-        if(Mathf.Abs(horizontal) >0.1f){
+        if(Mathf.Abs(horizontal) >0.1f && !isDeath){
+            isRunning = true;
             ChangeAnim("run");
             rb.velocity = new Vector2(horizontal*Time.fixedDeltaTime * speed, rb.velocity.y);
             transform.rotation = Quaternion.Euler(new Vector3(0,horizontal >0 ? 0: 180,0)); 
@@ -133,24 +138,21 @@ public class Player : MonoBehaviour
         internal void SavePoint(){
             savePoint = transform.position;
         }
-    // private void OnTriggerEnter2D(Collider2D collision){
-    //     if(collision.tag == "Coin"){
-    //         Debug.Log("Coin" + collision.gameObject.name);
-    //         coin++;
-    //         collision.gameObject.SetActive(false);
-    //         //Destroy(collision.gameObject);
-    //     }
-        
-
-    // }
+ 
     
     
     private void OnCollisionEnter2D(Collision2D collision){
-        if(collision.gameObject.tag =="DeathZone"){
-                    Debug.Log(collision.gameObject.name);
-                    isDeath= true;                   
-                    ChangeAnim("die");
-                    Invoke(nameof(OnInit),1f);
+        
+        if(collision.gameObject.tag =="DeathZone" ){
+                    
+                        Debug.Log(collision.gameObject.name);
+                        isDeath= true;                   
+                        ChangeAnim("die");
+                        Invoke(nameof(OnInit),1f);
+                    
+                    
+
+                    
                     
                 }
             }

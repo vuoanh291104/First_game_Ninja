@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {   
     
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Animator anim;
+    
     [SerializeField] private LayerMask groundPlayer;
     [SerializeField] private float speed=10;
     private bool isGrounded = true;
@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     private bool isDeath= false;
     private bool isRunning= false;
     private float horizontal;
-    private string currentAnimName;
+    
     private int coin = 0 ;
     private Vector3  savePoint;
     
@@ -91,6 +91,7 @@ public class Player : MonoBehaviour
             ChangeAnim("run");
             rb.velocity = new Vector2(horizontal*Time.fixedDeltaTime * speed, rb.velocity.y);
             transform.rotation = Quaternion.Euler(new Vector3(0,horizontal >0 ? 0: 180,0)); 
+            //Debug.Log(rb.velocity);
         }else if(isGrounded && !isJumping && !isAttack){
             ChangeAnim("idle");
             rb.velocity = Vector2.zero;
@@ -127,13 +128,7 @@ public class Player : MonoBehaviour
         }
 
         //ChangeAnim dùng cho mọi project
-        private void ChangeAnim(string animName){
-            if(currentAnimName != animName){
-                anim.ResetTrigger(currentAnimName);
-                currentAnimName = animName;
-                anim.SetTrigger(currentAnimName);
-            }
-        }
+        
         internal void SavePoint(){
             savePoint = transform.position;
         }

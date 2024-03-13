@@ -5,18 +5,22 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     private float hp;
-    private bool IsDeath => hp<=0;  // => same return
     private string currentAnimName;
     [SerializeField] private Animator anim;
-    
+    private bool IsDeath => hp<=0;  // => same return
+
+    private void Start(){
+        OnInit();
+    }
 
     public virtual void OnInit(){
-
+        hp = 100;
     }
+
     public virtual void OnDespawn(){
 
     }
-    public void ChangeAnim(string animName){
+    protected void ChangeAnim(string animName){
             if(currentAnimName != animName){
                 anim.ResetTrigger(currentAnimName);
                 currentAnimName = animName;

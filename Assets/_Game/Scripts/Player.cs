@@ -29,10 +29,10 @@ public class Player : Character
     {
         
         SavePoint();
-        OnInit();
-    }
-    public void OnInit(){
         
+    }
+    public override void OnInit(){
+        base.OnInit();
         isAttack=false;
         isDeath=false;
         isRunning = false;
@@ -40,6 +40,15 @@ public class Player : Character
         ChangeAnim("idle");
         
        
+    }
+    public override void OnDespawn()
+    {
+        base.OnDespawn();
+    }
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
     }
     // Update is called once per frame
     void Update()
@@ -63,10 +72,6 @@ public class Player : Character
 
             if(Input.GetKeyDown(KeyCode.Space) && isGrounded){
                 Jump();
-            }   
-            if(Mathf.Abs(horizontal) >0.1f && !isDeath){
-                isRunning= true;
-                ChangeAnim("run");
             }
             if(Input.GetKey(KeyCode.C) && isGrounded){
                 Attack();
@@ -80,6 +85,8 @@ public class Player : Character
         if( !isGrounded && rb.velocity.y <0 ){
                 ChangeAnim("fall");
                 isJumping = false;
+        }else if(!isGrounded && isJumping && rb.velocity.y>0){
+            ChangeAnim("jump");
         }
     }
     private void FixedUpdate(){

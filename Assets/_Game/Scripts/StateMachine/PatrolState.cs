@@ -18,11 +18,18 @@ public class PatrolState : IState
     void IState.OnExecute(Enemy enemy)
     { 
         timer += Time.deltaTime;
-        if(timer < randomTime){
+        if(enemy.Target!=null){
+            //doi huong cua enemy toi player
+            enemy.ChangeDirection(enemy.Target.transform.position.x > enemy.transform.position.x);
             enemy.Moving();
-
         }else{
-            enemy.ChangeState(new IdleState());
+            if(timer < randomTime){
+                enemy.Moving();
+            }
+            else{
+                enemy.ChangeState(new IdleState());
+            }
+        
         }
         
     }

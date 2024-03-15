@@ -11,6 +11,8 @@ public class Player : Character
     
     [SerializeField] private LayerMask groundPlayer;
     [SerializeField] private float speed=10;
+    [SerializeField] private Kunai kunaiPrefab;
+    [SerializeField] private Transform throwPoint;
     private bool isGrounded = true;
     private bool isJumping= false;
     private bool isAttack= false;
@@ -44,11 +46,13 @@ public class Player : Character
     public override void OnDespawn()
     {
         base.OnDespawn();
+        OnInit();
     }
 
     protected override void OnDeath()
     {
         base.OnDeath();
+        
     }
     // Update is called once per frame
     void Update()
@@ -121,7 +125,7 @@ public class Player : Character
             ChangeAnim("throw");
             isAttack=true;
             Invoke(nameof(ResetAttack),0.5f);
-            
+            Instantiate(kunaiPrefab, throwPoint.position,throwPoint.rotation);
 
         }
         private void ResetAttack(){

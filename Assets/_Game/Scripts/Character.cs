@@ -18,10 +18,11 @@ public class Character : MonoBehaviour
     }
 
     public virtual void OnDespawn(){
-
+        
     }
     protected virtual void OnDeath(){
-
+        ChangeAnim("die");
+        Invoke(nameof(OnDespawn),2f);
     }
     
     protected void ChangeAnim(string animName){
@@ -31,7 +32,7 @@ public class Character : MonoBehaviour
                 anim.SetTrigger(currentAnimName);
             }
         }
-    protected virtual void OnHit(float damage){
+    public virtual void OnHit(float damage){
         if(!IsDeath){
             hp-=damage;
             if(IsDeath){

@@ -29,6 +29,7 @@ public class Enemy : Character
     public override void OnDespawn()
     {
         base.OnDespawn();
+        Destroy(gameObject);
     }
     protected override void OnDeath()
     {
@@ -54,7 +55,7 @@ public class Enemy : Character
         rb.velocity = Vector2.zero;
     }
     public void Attack(){
-
+        ChangeAnim("attack");
     }
     public bool IsTargetInRange(){
         if(target !=null && Vector2.Distance(target.transform.position, transform.position)<= attackRange){

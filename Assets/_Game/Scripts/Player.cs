@@ -13,6 +13,7 @@ public class Player : Character
     [SerializeField] private float speed=10;
     [SerializeField] private Kunai kunaiPrefab;
     [SerializeField] private Transform throwPoint;
+    [SerializeField] private GameObject attackArea;
     private bool isGrounded = true;
     private bool isJumping= false;
     private bool isAttack= false;
@@ -25,14 +26,6 @@ public class Player : Character
     
     [SerializeField] private float jumpForce = 350;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-        SavePoint();
-        
-    }
     public override void OnInit(){
         base.OnInit();
         isAttack=false;
@@ -40,6 +33,9 @@ public class Player : Character
         isRunning = false;
         transform.position= savePoint;
         ChangeAnim("idle");
+        DeActiveAttack();
+        SavePoint();
+
         
        
     }
@@ -120,6 +116,8 @@ public class Player : Character
             ChangeAnim("attack");
             isAttack=true;
             Invoke(nameof(ResetAttack),0.5f);
+            ActiveAttack();
+            Invoke(nameof(DeActiveAttack),0.5f);       
         }
         private void Throw(){
             ChangeAnim("throw");
@@ -143,8 +141,13 @@ public class Player : Character
         internal void SavePoint(){
             savePoint = transform.position;
         }
- 
-    
+
+        private void ActiveAttack(){
+            attackArea.SetActive(true);
+        }
+        private void DeActiveAttack(){
+            attackArea.SetActive(false);
+        }
     
     private void OnCollisionEnter2D(Collision2D collision){
         

@@ -14,10 +14,12 @@ public class Enemy : Character
     [SerializeField] private GameObject attackArea;
     private IState currentState;
     private bool isRight = true;
+    
     private Character target;
     public Character Target=>target;
     private void Update(){
-        if(currentState !=null){
+
+        if(currentState !=null && !IsDead){
             currentState.OnExecute(this);
         }
     }
@@ -36,6 +38,7 @@ public class Enemy : Character
     }
     protected override void OnDeath()
     {
+        
         ChangeState(null);
         base.OnDeath();
     }

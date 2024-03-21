@@ -17,7 +17,7 @@ public class Player : Character
     private bool isGrounded = true;
     private bool isJumping= false;
     private bool isAttack= false;
-    private bool isDeath= false;
+//    private bool isDeath= false;
     private bool isRunning= false;
     private float horizontal;
     
@@ -29,7 +29,7 @@ public class Player : Character
     public override void OnInit(){
         base.OnInit();
         isAttack=false;
-        isDeath=false;
+        
         isRunning = false;
         transform.position= savePoint;
         ChangeAnim("idle");
@@ -53,7 +53,7 @@ public class Player : Character
     // Update is called once per frame
     void Update()
     {
-        if(isDeath){
+        if(IsDead){
             
             return;
         }
@@ -93,7 +93,7 @@ public class Player : Character
         move();
     }
     private void move(){
-        if(Mathf.Abs(horizontal) >0.1f && !isDeath){
+        if(Mathf.Abs(horizontal) >0.1f && !IsDead){
             isRunning = true;
             ChangeAnim("run");
             rb.velocity = new Vector2(horizontal*Time.fixedDeltaTime * speed, rb.velocity.y);
@@ -154,7 +154,7 @@ public class Player : Character
         if(collision.gameObject.tag =="DeathZone" ){
                     
                         Debug.Log(collision.gameObject.name);
-                        isDeath= true;                   
+                                     
                         ChangeAnim("die");
                         Invoke(nameof(OnInit),1f);
                     

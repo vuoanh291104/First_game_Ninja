@@ -7,7 +7,7 @@ public class Character : MonoBehaviour
     private float hp;
     private string currentAnimName;
     [SerializeField] private Animator anim;
-    private bool IsDeath => hp<=0;  // => same return
+    public bool IsDead => hp<=0;  // => same return
 
     private void Start(){
         OnInit();
@@ -33,9 +33,9 @@ public class Character : MonoBehaviour
             }
         }
     public virtual void OnHit(float damage){
-        if(!IsDeath){
+        if(!IsDead){
             hp-=damage;
-            if(IsDeath){
+            if(IsDead){
                 OnDeath();
             }
         }

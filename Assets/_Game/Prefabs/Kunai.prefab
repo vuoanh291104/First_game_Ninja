@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f47a531b8f7dc4c83d60aa9ad5caa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVFX: {fileID: 3119126626872684020, guid: 0ac7819ee63b9f84498b375779b8aa96, type: 3}
   rb: {fileID: 3233740805619388480}
 --- !u!212 &3232034896315614798
 SpriteRenderer:

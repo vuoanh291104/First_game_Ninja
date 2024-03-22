@@ -17,7 +17,7 @@ public class Player : Character
     private bool isGrounded = true;
     private bool isJumping= false;
     private bool isAttack= false;
-//    private bool isDeath= false;
+
     private bool isRunning= false;
     private float horizontal;
     
@@ -41,13 +41,17 @@ public class Player : Character
     }
     public override void OnDespawn()
     {
+        
         base.OnDespawn();
         OnInit();
+        
     }
 
     protected override void OnDeath()
     {
+        
         base.OnDeath();
+        
         
     }
     // Update is called once per frame
@@ -57,6 +61,7 @@ public class Player : Character
             
             return;
         }
+        
         isGrounded = CheckGrounded();
         horizontal = Input.GetAxisRaw("Horizontal"); // di chuyển với chiều ngang
         //float vertical = Input.GetAxisRaw("Vertical");  di chuyển với chiều dọc
@@ -93,10 +98,10 @@ public class Player : Character
         move();
     }
     private void move(){
-        if(Mathf.Abs(horizontal) >0.1f && !IsDead){
+        if(Mathf.Abs(horizontal) >0.1f && hp!=0){
             isRunning = true;
             ChangeAnim("run");
-            rb.velocity = new Vector2(horizontal*Time.fixedDeltaTime * speed, rb.velocity.y);
+            rb.velocity = new Vector2(horizontal* speed, rb.velocity.y);
             transform.rotation = Quaternion.Euler(new Vector3(0,horizontal >0 ? 0: 180,0)); 
             //Debug.Log(rb.velocity);
         }else if(isGrounded && !isJumping && !isAttack){
@@ -154,8 +159,10 @@ public class Player : Character
         if(collision.gameObject.tag =="DeathZone" ){
                     
                         Debug.Log(collision.gameObject.name);
-                                     
-                        ChangeAnim("die");
+                        hp=0;
+                        healthBar.SetNewHp(hp);
+                        base.OnDeath();             
+                        //ChangeAnim("die");
                         Invoke(nameof(OnInit),1f);
                     
                     

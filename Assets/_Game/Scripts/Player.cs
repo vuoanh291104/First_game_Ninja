@@ -53,6 +53,7 @@ public class Player : Character
         base.OnDeath();
         
         
+        
     }
     // Update is called once per frame
     void Update()
@@ -95,7 +96,10 @@ public class Player : Character
         }
     }
     private void FixedUpdate(){
-        move();
+        if(!IsDead){
+            move();
+
+        }
     }
     private void move(){
         if(Mathf.Abs(horizontal) >0.1f && hp!=0){

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Coin : MonoBehaviour
 {
-    int coindem = 0;
+    static int coindem = 0;
     [SerializeField] private Text coinText;
     
     void Start()

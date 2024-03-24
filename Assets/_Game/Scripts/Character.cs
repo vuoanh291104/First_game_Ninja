@@ -8,6 +8,7 @@ public class Character : MonoBehaviour
     private string currentAnimName;
     [SerializeField] private Animator anim;
     [SerializeField] protected HealthBar healthBar;
+    [SerializeField] protected CombatText combatTextPrefab;
     public bool IsDead => hp<=0;  // => same return
 
     private void Start(){
@@ -42,6 +43,7 @@ public class Character : MonoBehaviour
                 OnDeath();
             }
             healthBar.SetNewHp(hp);
+            Instantiate(combatTextPrefab,transform.position+ Vector3.up,Quaternion.identity).OnInit(damage);
 
         }
     }

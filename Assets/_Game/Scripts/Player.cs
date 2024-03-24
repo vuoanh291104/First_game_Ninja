@@ -14,6 +14,7 @@ public class Player : Character
     [SerializeField] private Kunai kunaiPrefab;
     [SerializeField] private Transform throwPoint;
     [SerializeField] private GameObject attackArea;
+    
     private bool isGrounded = true;
     private bool isJumping= false;
     private bool isAttack= false;
@@ -21,10 +22,11 @@ public class Player : Character
     private bool isRunning= false;
     private float horizontal;
     
-    private int coin = 0 ;
+    
     private Vector3  savePoint;
     
     [SerializeField] private float jumpForce = 350;
+    private Coin coin;
 
     public override void OnInit(){
         base.OnInit();
@@ -35,7 +37,7 @@ public class Player : Character
         ChangeAnim("idle");
         DeActiveAttack();
         SavePoint();
-
+        
         
        
     }
@@ -121,14 +123,14 @@ public class Player : Character
         
     }
 
-        private void Attack(){
+        public void Attack(){
             ChangeAnim("attack");
             isAttack=true;
             Invoke(nameof(ResetAttack),0.5f);
             ActiveAttack();
             Invoke(nameof(DeActiveAttack),0.5f);       
         }
-        private void Throw(){
+        public void Throw(){
             ChangeAnim("throw");
             isAttack=true;
             Invoke(nameof(ResetAttack),0.5f);
@@ -139,13 +141,13 @@ public class Player : Character
             isAttack=false;
             ChangeAnim("idle");
         }
-        private void Jump(){
+        public void Jump(){
             isJumping = true;
             ChangeAnim("jump");
             rb.AddForce(jumpForce * Vector2.up);
         }
 
-        //ChangeAnim dùng cho mọi project
+        
         
         internal void SavePoint(){
             savePoint = transform.position;
@@ -158,6 +160,7 @@ public class Player : Character
             attackArea.SetActive(false);
         }
     
+   
     private void OnCollisionEnter2D(Collision2D collision){
         
         if(collision.gameObject.tag =="DeathZone" ){
